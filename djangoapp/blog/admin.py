@@ -4,7 +4,7 @@ from django_summernote.admin import SummernoteModelAdmin
 
 
 @admin.register(Tag)
-class TagAgmin(admin.ModelAdmin):
+class TagAdmin(admin.ModelAdmin):
     list_display = 'id', 'name', 'slug',
     list_display_links = 'name',
     search_fields = 'id', 'name', 'slug',
@@ -16,7 +16,7 @@ class TagAgmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class TagAgmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = 'id', 'name', 'slug',
     list_display_links = 'name',
     search_fields = 'id', 'name', 'slug',
@@ -28,7 +28,8 @@ class TagAgmin(admin.ModelAdmin):
 
 
 @admin.register(Page)
-class TagAgmin(admin.ModelAdmin):
+class PageAgmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
     list_display = 'id', 'title', 'is_published',
     list_display_links = 'title',
     search_fields = 'id', 'slug', 'title', 'content',
