@@ -68,32 +68,21 @@ class CreatedByListView(PostListView):
         return super().get(request, *args, **kwargs)
 
 
-def created_by(request, author_pk):
-    user = User.objects.filter(pk=author_pk).first()
+class CategoryListView(PostListView):
+    allow_empty = False
 
-    if user is None:
-        raise Http404()
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            category__slug=self.kwargs.get('slug')
+        )
 
-    posts = Post.objects.get_published()\
-        .filter(created_by__pk=author_pk)
-    user_full_name = user.username
-
-    if user.first_name:
-        user_full_name = f'{user.first_name} {user.last_name}'
-    page_title = 'Posts de ' + user_full_name + ' - '
-
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        page_title = f'{self.object_list[0].category.name} - Categoria - '
+        ctx.update({
             'page_title': page_title,
-        }
-    )
+        })
+        return ctx
 
 
 def category(request, slug):
