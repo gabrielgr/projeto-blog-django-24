@@ -9,6 +9,14 @@ PER_PAGE = 9
 
 
 def index(request):
+    # Function Based Views -> São funções
+    # Class Based Views -> São classes (POO)
+
+    # Obter dados do model
+    # Esses dados são uma lista de objetos
+    # Paginação
+    # Renderização
+    # Manipulando o contexto
     posts = Post.objects.get_published()
 
     paginator = Paginator(posts, PER_PAGE)
